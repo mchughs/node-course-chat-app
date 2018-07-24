@@ -11,7 +11,7 @@ socket.on('disconnect', function () {
 })
 
 socket.on('showNewMessage', function (message) {
-  console.log(`new message "${message.text}" post by ${message.user} at time ${message.timeStamp}!`)
+  console.log(`${message.user}: "${message.text}" sent at time ${message.timeStamp}.`)
 })
 
 // Client is Shouting to Server

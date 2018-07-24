@@ -27,10 +27,26 @@ io.on('connection', (socket) => {
       text: message.text,
       timeStamp: new Date().getTime()
     })
+    // socket.broadcast.emit('showNewMessage', {
+    //   user: message.user,
+    //   text: message.text,
+    //   timeStamp: new Date().getTime()
+    // })
   })
 
   // Server is Shouting to Client
   // Server --data--> Client
+  socket.emit('showNewMessage', {
+    user: 'Admin',
+    text: 'Welcome to the chat app.',
+    timeStamp: new Date().getTime()
+  })
+
+  socket.broadcast.emit('showNewMessage', {
+    user: 'Admin',
+    text: 'New user has joined the chatroom.',
+    timeStamp: new Date().getTime()
+  })
 
 })
 
