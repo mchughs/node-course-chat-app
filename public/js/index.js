@@ -11,23 +11,28 @@ socket.on('disconnect', function () {
 })
 
 socket.on('showNewMessage', function (message) {
-  const li = jQuery('<li></li>')
-  li.text(`${message.user}: "${message.text}"`)
+  const formattedTime = moment(message.timeStamp).format('h:mm a')
+  var template = jQuery('#message-template').html()
+  var html = Mustache.render(template, {
+    user: message.user,
+    text: message.text,
+    timeStamp: formattedTime
+  })
 
-  jQuery('#messages').append(li)
+  jQuery('#messages').append(html)
 });
 
 socket.on('showLocation', function (message) {
-  const li = jQuery('<li></li>')
-  const a = jQuery('<a target="_blank">My current location</a>')
-
-  li.text(`${message.user}: `)
-  a.attr('href', message.url)
-  li.append(a)
-  jQuery('#messages').append(li)
+  const formattedTime = moment(message.timeStamp).format('h:mm a')
+  var template = jQuery('#location-message-template').html()
+  var html = Mustache.render(template, {
+    user: message.user,
+    url: message.url,
+    timeStamp: formattedTime
+  })
+  
+  jQuery('#messages').append(html)
 });
-
-
 
 // Client is Shouting to Server
 // Client --data--> Server

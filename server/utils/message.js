@@ -1,8 +1,10 @@
+const moment = require('moment');
+
 const generateMessage = (user, text) => {
   return {
     user,
     text,
-    timeStamp: new Date().getTime()
+    timeStamp: moment().valueOf()
   }
 }
 
@@ -12,7 +14,7 @@ const generateLocation = (user, lat, lng) => {
   return {
     user,
     url,
-    timeStamp: new Date().getTime()
+    timeStamp: moment().valueOf()
   }
 }
 
