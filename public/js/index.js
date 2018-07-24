@@ -11,8 +11,24 @@ socket.on('disconnect', function () {
 })
 
 socket.on('showNewMessage', function (message) {
-  console.log(`${message.user}: "${message.text}" sent at time ${message.timeStamp}.`)
-})
+  const li = jQuery('<li></li>')
+  li.text(`${message.user}: "${message.text}"`)
+
+  jQuery('#messages').append(li)
+});
 
 // Client is Shouting to Server
 // Client --data--> Server
+
+//socket.emit('createNewMessage', object, callback)
+
+jQuery('#message-form').on('submit', function (e) {
+  e.preventDefault();
+
+  socket.emit('createNewMessage', {
+    user: 'USER',
+    text: jQuery('[name=message]').val()
+  }, function () {
+
+  })
+});
