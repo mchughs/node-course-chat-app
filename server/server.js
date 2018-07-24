@@ -28,6 +28,10 @@ io.on('connection', (socket) => {
     io.emit('showNewMessage', generateMessage(message.user, message.text))
   })
 
+  socket.on('createLocationMessage', (coords) => {
+    io.emit('showNewMessage', generateMessage('Admin', `${coords.lat} : ${coords.lng}`))    
+  })
+
   // Server is Shouting to Client
   // Server --data--> Client
   socket.emit('showNewMessage',
