@@ -9,6 +9,8 @@ var app = express();
 var server = http.createServer(app)
 var io = socketIO(server)
 
+const {generateMessage} = require('./utils/message');
+
 app.use(express.static(publicPath))
 
 io.on('connection', (socket) => {
@@ -22,31 +24,18 @@ io.on('connection', (socket) => {
 
   socket.on('createNewMessage', (message) => {
     console.log('Message created', message)
-    io.emit('showNewMessage', {
-      user: message.user,
-      text: message.text,
-      timeStamp: new Date().getTime()
-    })
-    // socket.broadcast.emit('showNewMessage', {
-    //   user: message.user,
-    //   text: message.text,
-    //   timeStamp: new Date().getTime()
-    // })
+    io.emit('showNewMessage', generateMessage(message.user, message.text))
   })
 
   // Server is Shouting to Client
   // Server --data--> Client
-  socket.emit('showNewMessage', {
-    user: 'Admin',
-    text: 'Welcome to the chat app.',
-    timeStamp: new Date().getTime()
-  })
+  socket.emit('showNewMessage',
+    generateMessage('Admin','Welcome to the chat app.')
+  )
 
-  socket.broadcast.emit('showNewMessage', {
-    user: 'Admin',
-    text: 'New user has joined the chatroom.',
-    timeStamp: new Date().getTime()
-  })
+  socket.broadcast.emit('showNewMessage',
+    generateMessage('Admin', 'New user has joined the chatroom.')
+  )
 
 })
 
