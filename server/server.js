@@ -20,17 +20,18 @@ io.on('connection', (socket) => {
     console.log('user was disconnected')
   })
 
-  socket.on('newMessageCreated', (message) => {
+  socket.on('createNewMessage', (message) => {
     console.log('Message created', message)
+    io.emit('showNewMessage', {
+      user: message.user,
+      text: message.text,
+      timeStamp: new Date().getTime()
+    })
   })
 
   // Server is Shouting to Client
   // Server --data--> Client
-  socket.emit('newMessagePosted', {
-    user: 'Alice',
-    text: 'Hi everyone',
-    timeStamp: 123
-  })
+
 })
 
 server.listen(port, () => {
