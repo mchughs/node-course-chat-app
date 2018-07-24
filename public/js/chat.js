@@ -1,5 +1,23 @@
 var socket = io()
 
+function scrollToBottom() {
+  // Selectors
+  var messages = jQuery('#messages')
+  var newMessage = messages.children('li:last-child')
+
+  // Heights
+  var clientHeight = messages.prop('clientHeight')
+  var scrollTop = messages.prop('scrollTop')
+  var scrollHeight = messages.prop('scrollHeight')
+  var newMessageHeight = newMessage.innerHeight()
+  var lastMessageHeight = newMessage.prev().innerHeight()
+
+  if (clientHeight + scrollTop + newMessageHeight + lastMessageHeight >= scrollHeight) {
+    messages.scrollTop(scrollHeight)
+  }
+
+}
+
 // Client is Listening to Server
 // Client <--data-- Server
 socket.on('connect', function () {
@@ -20,6 +38,7 @@ socket.on('showNewMessage', function (message) {
   })
 
   jQuery('#messages').append(html)
+  scrollToBottom()
 });
 
 socket.on('showLocation', function (message) {
@@ -30,8 +49,9 @@ socket.on('showLocation', function (message) {
     url: message.url,
     timeStamp: formattedTime
   })
-  
+
   jQuery('#messages').append(html)
+  scrollToBottom()
 });
 
 // Client is Shouting to Server
