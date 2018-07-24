@@ -9,7 +9,7 @@ var app = express();
 var server = http.createServer(app)
 var io = socketIO(server)
 
-const {generateMessage} = require('./utils/message');
+const {generateMessage, generateLocation} = require('./utils/message');
 
 app.use(express.static(publicPath))
 
@@ -28,8 +28,8 @@ io.on('connection', (socket) => {
     io.emit('showNewMessage', generateMessage(message.user, message.text))
   })
 
-  socket.on('createLocationMessage', (coords) => {
-    io.emit('showNewMessage', generateMessage('Admin', `${coords.lat} : ${coords.lng}`))    
+  socket.on('createLocation', (coords) => {
+    io.emit('showLocation', generateLocation('Admin', coords.lat, coords.lng))    
   })
 
   // Server is Shouting to Client

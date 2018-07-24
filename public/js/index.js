@@ -17,6 +17,18 @@ socket.on('showNewMessage', function (message) {
   jQuery('#messages').append(li)
 });
 
+socket.on('showLocation', function (message) {
+  const li = jQuery('<li></li>')
+  const a = jQuery('<a target="_blank">My current location</a>')
+
+  li.text(`${message.user}: `)
+  a.attr('href', message.url)
+  li.append(a)
+  jQuery('#messages').append(li)
+});
+
+
+
 // Client is Shouting to Server
 // Client --data--> Server
 
@@ -40,7 +52,7 @@ locationButton.on('click', function () {
   }
 
   navigator.geolocation.getCurrentPosition(function (position) {
-    socket.emit('createLocationMessage', {
+    socket.emit('createLocation', {
       lat: position.coords.latitude,
       lng: position.coords.longitude
     })
